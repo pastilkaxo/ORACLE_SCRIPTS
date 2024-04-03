@@ -1,0 +1,115 @@
+ALTER SESSION SET "_oracle_script" = true;
+-- 1:
+select * from dba_tablespaces;
+
+-- 2:
+CREATE TABLESPACE LVO_QDATA
+    DATAFILE 'C:\Tablecpaces\Lab5\LVO_QDATA.DBF'
+    SIZE 10M
+    AUTOEXTEND ON NEXT 5M
+    OFFLINE
+    EXTENT MANAGEMENT LOCAL;
+
+ALTER TABLESPACE LVO_QDATA ONLINE;
+
+CREATE USER LVO IDENTIFIED BY 2025
+   DEFAULT TABLESPACE LVO_QDATA QUOTA 2m ON LVO_QDATA
+   TEMPORARY TABLESPACE TEMP
+   PROFILE DEFAULT
+   ACCOUNT UNLOCK;
+
+grant create session , create table , connect , CREATE VIEW , CREATE PROCEDURE to LVO;
+
+
+create table LVO_T1 (
+ID number(5) primary key,
+Name varchar(10) 
+);
+
+insert all 
+    into LVO_T1(ID,Name)values(1,'Vlad')
+    into LVO_T1(ID,Name)values(2,'Nikita')
+    into LVO_T1(ID,Name)values(3,'Leha')
+select * from dual;
+
+-- 3:
+SELECT * FROM DICTIONARY WHERE TABLE_NAME LIKE '%SEGMENT%';
+
+select * from USER_SEGMENTS where TABLESPACE_NAME like 'LVO_QDATA';
+
+-- 4:
+SELECT * FROM USER_SEGMENTS WHERE SEGMENT_NAME = 'LVO_T1';
+
+-- 5:
+select * from USER_SEGMENTS;
+select * from DBA_SEGMENTS;
+
+-- 6:
+DROP TABLE LVO_T1;
+
+-- 7:
+select * from USER_SEGMENTS where TABLESPACE_NAME = 'LVO_QDATA';
+SELECT * FROM USER_SEGMENTS WHERE SEGMENT_NAME = 'LVO_T1';
+SELECT * FROM USER_RECYCLEBIN;
+--PURGE TABLE LVO_T1;
+-- 8;
+FLASHBACK TABLE LVO_T1 TO BEFORE DROP;
+SELECT TABLE_NAME , TABLESPACE_NAME FROM USER_TABLES;
+
+-- 9:
+delete from LVO_T1 where ID > 3;
+BEGIN
+    for i in 4 .. 10000 loop
+    insert into LVO_T1(ID,Name) values(i,'vlad');
+    commit;
+    end loop;
+END;
+
+SELECT * FROM LVO_T1;
+
+-- 10:
+SELECT SEGMENT_NAME ,EXTENTS , BLOCKS , BYTES,TABLESPACE_NAME FROM USER_SEGMENTS WHERE SEGMENT_NAME = 'LVO_T1';
+
+-- 11:
+
+SELECT * FROM DICTIONARY WHERE TABLE_NAME LIKE '%EXTENT%';
+
+SELECT * FROM DBA_EXTENTS;
+SELECT * FROM USER_EXTENTS;
+-- 12:
+CREATE TABLE TEST(ID NUMBER(5) PRIMARY KEY);
+
+SELECT ID ,RowId FROM LVO_T1;
+SELECT ID ,RowId FROM TEST;
+
+-- 13:
+
+SELECT ID,ORA_ROWSCN FROM LVO_T1;
+SELECT ID,ORA_ROWSCN FROM TEST;
+
+-- 14:
+DROP TABLE LVO_T1;
+
+create table LVO_T1 (
+ID number(5) primary key,
+Name varchar(10) 
+) rowdependencies;
+
+BEGIN
+    for i in 4 .. 10000 loop
+    insert into LVO_T1(ID,Name) values(i,'vlad');
+    commit;
+    end loop;
+END;
+
+SELECT ID,ORA_ROWSCN FROM LVO_T1;
+
+
+-- 16 
+drop table TEST;
+drop table LVO_T1 PURGE;
+DROP USER LVO;
+DROP TABLESPACE LVO_QDATA;
+
+
+select distinct SEGMENT_TYPE FROM DBA_SEGMENTS;
