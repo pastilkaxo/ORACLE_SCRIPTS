@@ -32,8 +32,6 @@ Z:= X - Y;
 DBMS_OUTPUT.PUT_LINE('X-Y =  '|| Z ||'');
 Z:= Y / X;
 DBMS_OUTPUT.PUT_LINE('Y / X =  '|| Z ||'');
-Z := TRUNC(Y/X);
-DBMS_OUTPUT.PUT_LINE('нярюрнй:'||Z||'');
 Z:= MOD(Y,X);
 DBMS_OUTPUT.PUT_LINE('лндскэ:'||Z||'');
 END;
@@ -52,7 +50,7 @@ END;
 DECLARE 
     N1 NUMBER(10,2) := 8.3;
     N2 NUMBER(10,-2) := 123456789;
-    N3 NUMBER := 5.23E-10;
+    N3 NUMBER := 5.23E5;
     D1 DATE := SYSDATE;
     D2 TIMESTAMP := SYSTIMESTAMP;
     C1 CHAR(5) := 'VLAD';
