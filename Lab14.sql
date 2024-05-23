@@ -1,7 +1,7 @@
 alter pluggable database pdb_lvo open;
 ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE
 
---1. Создайте таблицу, имеющую несколько атрибутов, один из которых первичный ключ.
+--1. Г‘Г®Г§Г¤Г Г©ГІГҐ ГІГ ГЎГ«ГЁГ¶Гі, ГЁГ¬ГҐГѕГ№ГіГѕ Г­ГҐГ±ГЄГ®Г«ГјГЄГ® Г ГІГ°ГЁГЎГіГІГ®Гў, Г®Г¤ГЁГ­ ГЁГ§ ГЄГ®ГІГ®Г°Г»Гµ ГЇГҐГ°ГўГЁГ·Г­Г»Г© ГЄГ«ГѕГ·.
 
 CREATE TABLE LAB_14 (
 ID INTEGER PRIMARY KEY,
@@ -12,7 +12,7 @@ CONSTRAINT CHECK_USER_ROLE CHECK(ROLENAME = 'SELLER' OR ROLENAME = 'MANAGER' OR 
 
 -- DROP TABLE LAB_14
 
---2. Заполните таблицу данными (10 шт.).
+--2. Г‡Г ГЇГ®Г«Г­ГЁГІГҐ ГІГ ГЎГ«ГЁГ¶Гі Г¤Г Г­Г­Г»Г¬ГЁ (10 ГёГІ.).
 
 INSERT ALL
     INTO LAB_14(ID,NAME,ROLENAME) VALUES(1,'VLAD','BOSS')
@@ -33,8 +33,8 @@ DELETE FROM LAB_14 WHERE ROLENAME = 'MANAGER';
 ROLLBACK
 SELECT * FROM LAB_14;
 
---3. Создайте BEFORE – триггер уровня оператора на события INSERT, DELETE и UPDATE.
---Этот и все последующие триггеры должны выдавать сообщение на серверную консоль (DMS_OUTPUT) со своим собственным именем. 
+--3. Г‘Г®Г§Г¤Г Г©ГІГҐ BEFORE вЂ“ ГІГ°ГЁГЈГЈГҐГ° ГіГ°Г®ГўГ­Гї Г®ГЇГҐГ°Г ГІГ®Г°Г  Г­Г  Г±Г®ГЎГ»ГІГЁГї INSERT, DELETE ГЁ UPDATE.
+--ГќГІГ®ГІ ГЁ ГўГ±ГҐ ГЇГ®Г±Г«ГҐГ¤ГіГѕГ№ГЁГҐ ГІГ°ГЁГЈГЈГҐГ°Г» Г¤Г®Г«Г¦Г­Г» ГўГ»Г¤Г ГўГ ГІГј Г±Г®Г®ГЎГ№ГҐГ­ГЁГҐ Г­Г  Г±ГҐГ°ГўГҐГ°Г­ГіГѕ ГЄГ®Г­Г±Г®Г«Гј (DMS_OUTPUT) Г±Г® Г±ГўГ®ГЁГ¬ Г±Г®ГЎГ±ГІГўГҐГ­Г­Г»Г¬ ГЁГ¬ГҐГ­ГҐГ¬. 
 
 CREATE OR REPLACE TRIGGER CHECK_ACTION_BEFORE
 BEFORE INSERT OR UPDATE OR DELETE ON LAB_14
@@ -42,7 +42,7 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('CHECK_ACTION_BEFORE');
 END;
 
---4. Создайте BEFORE-триггер уровня строки на события INSERT, DELETE и UPDATE.
+--4. Г‘Г®Г§Г¤Г Г©ГІГҐ BEFORE-ГІГ°ГЁГЈГЈГҐГ° ГіГ°Г®ГўГ­Гї Г±ГІГ°Г®ГЄГЁ Г­Г  Г±Г®ГЎГ»ГІГЁГї INSERT, DELETE ГЁ UPDATE.
 
 CREATE OR REPLACE TRIGGER CHECK_ACTION_BEFORE_2
 BEFORE INSERT OR UPDATE OR DELETE ON LAB_14
@@ -51,7 +51,7 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('CHECK_ACTION_BEFORE_2');
 END;
 
---5. Примените предикаты INSERTING, UPDATING и DELETING.
+--5. ГЏГ°ГЁГ¬ГҐГ­ГЁГІГҐ ГЇГ°ГҐГ¤ГЁГЄГ ГІГ» INSERTING, UPDATING ГЁ DELETING.
 
 CREATE OR REPLACE TRIGGER PREDICAT_CHECK
 BEFORE INSERT OR UPDATE OR DELETE ON LAB_14
@@ -65,7 +65,7 @@ BEGIN
     END IF;
 END;
 
---6. Разработайте AFTER-триггеры уровня оператора на события INSERT, DELETE и UPDATE.
+--6. ГђГ Г§Г°Г ГЎГ®ГІГ Г©ГІГҐ AFTER-ГІГ°ГЁГЈГЈГҐГ°Г» ГіГ°Г®ГўГ­Гї Г®ГЇГҐГ°Г ГІГ®Г°Г  Г­Г  Г±Г®ГЎГ»ГІГЁГї INSERT, DELETE ГЁ UPDATE.
 
 CREATE OR REPLACE TRIGGER CHECK_ACTION_AFTER
 AFTER INSERT OR UPDATE OR DELETE ON LAB_14
@@ -74,7 +74,7 @@ BEGIN
     ROLLBACK;
 END;
 
---7. Разработайте AFTER-триггеры уровня строки на события INSERT, DELETE и UPDATE.
+--7. ГђГ Г§Г°Г ГЎГ®ГІГ Г©ГІГҐ AFTER-ГІГ°ГЁГЈГЈГҐГ°Г» ГіГ°Г®ГўГ­Гї Г±ГІГ°Г®ГЄГЁ Г­Г  Г±Г®ГЎГ»ГІГЁГї INSERT, DELETE ГЁ UPDATE.
 
 CREATE OR REPLACE TRIGGER CHECK_ACTION_AFTER_2
 AFTER INSERT OR UPDATE OR DELETE ON LAB_14
@@ -84,8 +84,8 @@ BEGIN
 END;
 
 
---8. Создайте таблицу с именем AUDIT. Таблица должна содержать поля: OperationDate, OperationType 
---(операция вставки, обновления и удаления), TriggerName(имя триггера), Data (строка со значениями полей до и после операции).
+--8. Г‘Г®Г§Г¤Г Г©ГІГҐ ГІГ ГЎГ«ГЁГ¶Гі Г± ГЁГ¬ГҐГ­ГҐГ¬ AUDIT. Г’Г ГЎГ«ГЁГ¶Г  Г¤Г®Г«Г¦Г­Г  Г±Г®Г¤ГҐГ°Г¦Г ГІГј ГЇГ®Г«Гї: OperationDate, OperationType 
+--(Г®ГЇГҐГ°Г Г¶ГЁГї ГўГ±ГІГ ГўГЄГЁ, Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї ГЁ ГіГ¤Г Г«ГҐГ­ГЁГї), TriggerName(ГЁГ¬Гї ГІГ°ГЁГЈГЈГҐГ°Г ), Data (Г±ГІГ°Г®ГЄГ  Г±Г® Г§Г­Г Г·ГҐГ­ГЁГїГ¬ГЁ ГЇГ®Г«ГҐГ© Г¤Г® ГЁ ГЇГ®Г±Г«ГҐ Г®ГЇГҐГ°Г Г¶ГЁГЁ).
 
 CREATE TABLE AUDITT (
 OperationDate TIMESTAMP,
@@ -96,7 +96,7 @@ Data VARCHAR2(255)
 
 -- DROP TABLE AUDITT;
 
---9. Измените все триггеры таким образом, чтобы они регистрировали все операции с исходной таблицей в таблице AUDIT.
+--9. Г€Г§Г¬ГҐГ­ГЁГІГҐ ГўГ±ГҐ ГІГ°ГЁГЈГЈГҐГ°Г» ГІГ ГЄГЁГ¬ Г®ГЎГ°Г Г§Г®Г¬, Г·ГІГ®ГЎГ» Г®Г­ГЁ Г°ГҐГЈГЁГ±ГІГ°ГЁГ°Г®ГўГ Г«ГЁ ГўГ±ГҐ Г®ГЇГҐГ°Г Г¶ГЁГЁ Г± ГЁГ±ГµГ®Г¤Г­Г®Г© ГІГ ГЎГ«ГЁГ¶ГҐГ© Гў ГІГ ГЎГ«ГЁГ¶ГҐ AUDIT.
 
 CREATE OR REPLACE TRIGGER INSERT_INTO_LAB
 BEFORE INSERT  ON LAB_14
@@ -131,12 +131,12 @@ END;
 
 SELECT * FROM AUDITT;
 
---10. Выполните операцию, нарушающую целостность таблицы по первичному ключу. Выясните, зарегистрировал ли триггер это событие. Объясните результат.
+--10. Г‚Г»ГЇГ®Г«Г­ГЁГІГҐ Г®ГЇГҐГ°Г Г¶ГЁГѕ, Г­Г Г°ГіГёГ ГѕГ№ГіГѕ Г¶ГҐГ«Г®Г±ГІГ­Г®Г±ГІГј ГІГ ГЎГ«ГЁГ¶Г» ГЇГ® ГЇГҐГ°ГўГЁГ·Г­Г®Г¬Гі ГЄГ«ГѕГ·Гі. Г‚Г»ГїГ±Г­ГЁГІГҐ, Г§Г Г°ГҐГЈГЁГ±ГІГ°ГЁГ°Г®ГўГ Г« Г«ГЁ ГІГ°ГЁГЈГЈГҐГ° ГЅГІГ® Г±Г®ГЎГ»ГІГЁГҐ. ГЋГЎГєГїГ±Г­ГЁГІГҐ Г°ГҐГ§ГіГ«ГјГІГ ГІ.
 
     INSERT INTO LAB_14(ID,NAME,ROLENAME) VALUES(1,'DIMA','BOSS');
     SELECT * FROM LAB_14;
     
---11. Удалите (drop) исходную таблицу. Объясните результат. Добавьте триггер, запрещающий удаление исходной таблицы.
+--11. Г“Г¤Г Г«ГЁГІГҐ (drop) ГЁГ±ГµГ®Г¤Г­ГіГѕ ГІГ ГЎГ«ГЁГ¶Гі. ГЋГЎГєГїГ±Г­ГЁГІГҐ Г°ГҐГ§ГіГ«ГјГІГ ГІ. Г„Г®ГЎГ ГўГјГІГҐ ГІГ°ГЁГЈГЈГҐГ°, Г§Г ГЇГ°ГҐГ№Г ГѕГ№ГЁГ© ГіГ¤Г Г«ГҐГ­ГЁГҐ ГЁГ±ГµГ®Г¤Г­Г®Г© ГІГ ГЎГ«ГЁГ¶Г».
     DROP TABLE LAB_14;
     
     CREATE OR REPLACE TRIGGER TR_DROP_TABLE
@@ -149,13 +149,13 @@ SELECT * FROM AUDITT;
 
 -- DROP TRIGGER TR_DROP_TABLE;
     
---12. Удалите (drop) таблицу AUDIT. Просмотрите состояние триггеров с помощью SQL-DEVELOPER. Объясните результат. Измените триггеры.
+--12. Г“Г¤Г Г«ГЁГІГҐ (drop) ГІГ ГЎГ«ГЁГ¶Гі AUDIT. ГЏГ°Г®Г±Г¬Г®ГІГ°ГЁГІГҐ Г±Г®Г±ГІГ®ГїГ­ГЁГҐ ГІГ°ГЁГЈГЈГҐГ°Г®Гў Г± ГЇГ®Г¬Г®Г№ГјГѕ SQL-DEVELOPER. ГЋГЎГєГїГ±Г­ГЁГІГҐ Г°ГҐГ§ГіГ«ГјГІГ ГІ. Г€Г§Г¬ГҐГ­ГЁГІГҐ ГІГ°ГЁГЈГЈГҐГ°Г».
 
     DROP TABLE AUDITT;
     
     ALTER TABLE AUDITT ENABLE ALL TRIGGERS;
 
---13. Создайте представление над исходной таблицей. Разработайте INSTEAD OF UPDATE-триггер. Триггер должен добавлять новую строку в таблицу, а старую помечать как недействительную.
+--13. Г‘Г®Г§Г¤Г Г©ГІГҐ ГЇГ°ГҐГ¤Г±ГІГ ГўГ«ГҐГ­ГЁГҐ Г­Г Г¤ ГЁГ±ГµГ®Г¤Г­Г®Г© ГІГ ГЎГ«ГЁГ¶ГҐГ©. ГђГ Г§Г°Г ГЎГ®ГІГ Г©ГІГҐ INSTEAD OF UPDATE-ГІГ°ГЁГЈГЈГҐГ°. Г’Г°ГЁГЈГЈГҐГ° Г¤Г®Г«Г¦ГҐГ­ Г¤Г®ГЎГ ГўГ«ГїГІГј Г­Г®ГўГіГѕ Г±ГІГ°Г®ГЄГі Гў ГІГ ГЎГ«ГЁГ¶Гі, Г  Г±ГІГ Г°ГіГѕ ГЇГ®Г¬ГҐГ·Г ГІГј ГЄГ ГЄ Г­ГҐГ¤ГҐГ©Г±ГІГўГЁГІГҐГ«ГјГ­ГіГѕ.
 
     CREATE OR REPLACE VIEW LAB_14_V AS
     SELECT * FROM LAB_14;
@@ -171,11 +171,11 @@ SELECT * FROM AUDITT;
             DBMS_OUTPUT.PUT_LINE('TR_INSTEAD_OF');
     END;
     
-    UPDATE LAB_14_V SET NAME = 'БГТУ' , ROLENAME = 'MANAGER' WHERE ID = 9;
+    UPDATE LAB_14_V SET NAME = 'ГЃГѓГ’Г“' , ROLENAME = 'MANAGER' WHERE ID = 9;
 
 SELECT * FROM LAB_14_V;
 
---14. Продемонстрируйте, в каком порядке выполняются триггеры.
+--14. ГЏГ°Г®Г¤ГҐГ¬Г®Г­Г±ГІГ°ГЁГ°ГіГ©ГІГҐ, Гў ГЄГ ГЄГ®Г¬ ГЇГ®Г°ГїГ¤ГЄГҐ ГўГ»ГЇГ®Г«Г­ГїГѕГІГ±Гї ГІГ°ГЁГЈГЈГҐГ°Г».
 
 
 CREATE OR REPLACE TRIGGER INSERT_INTO_LAB_BEFORE 
@@ -204,19 +204,9 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('4. INSERT_INTO_LAB_AFTER_FRCH');
 END;
 
-CREATE OR REPLACE TRIGGER OPERATOR
-BEFORE INSERT ON LAB_14
-FOR EACH ROW
-FOLLOWS INSERT_INTO_LAB_BEFORE_FRCH
-BEGIN
-    IF INSERTING THEN
-        DBMS_OUTPUT.PUT_LINE('5. OPERATOR');
-    END IF;
-END;
 
 
-
---15. Создайте несколько триггеров одного типа, реагирующих на одно и то же событие, и покажите, в каком порядке они выполняются. Измените порядок выполнения этих триггеров.
+--15. Г‘Г®Г§Г¤Г Г©ГІГҐ Г­ГҐГ±ГЄГ®Г«ГјГЄГ® ГІГ°ГЁГЈГЈГҐГ°Г®Гў Г®Г¤Г­Г®ГЈГ® ГІГЁГЇГ , Г°ГҐГ ГЈГЁГ°ГіГѕГ№ГЁГµ Г­Г  Г®Г¤Г­Г® ГЁ ГІГ® Г¦ГҐ Г±Г®ГЎГ»ГІГЁГҐ, ГЁ ГЇГ®ГЄГ Г¦ГЁГІГҐ, Гў ГЄГ ГЄГ®Г¬ ГЇГ®Г°ГїГ¤ГЄГҐ Г®Г­ГЁ ГўГ»ГЇГ®Г«Г­ГїГѕГІГ±Гї. Г€Г§Г¬ГҐГ­ГЁГІГҐ ГЇГ®Г°ГїГ¤Г®ГЄ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї ГЅГІГЁГµ ГІГ°ГЁГЈГЈГҐГ°Г®Гў.
 
 
 CREATE OR REPLACE TRIGGER INSERT_INTO_LAB_BEFORE_2 
